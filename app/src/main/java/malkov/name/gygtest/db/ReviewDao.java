@@ -6,10 +6,9 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.Single;
 import malkov.name.gygtest.db.model.Review;
 
 @Dao
@@ -24,10 +23,7 @@ public interface ReviewDao {
     @Query("DELETE FROM reviews")
     void clearTable();
 
-    @Query("SELECT * FROM reviews ORDER BY id DESC LIMIT 20")
-    public Flowable<List<Review>> loadReviews();
-
-    @Query("SELECT * FROM reviews WHERE id < :lastId ORDER BY id DESC LIMIT 20")
-    public Flowable<List<Review>> loadReviewsFrom(long lastId);
+    @Query("SELECT * FROM reviews ORDER BY id DESC LIMIT 20 OFFSET :offset")
+    Single<List<Review>> loadReviewsWithOffset(int offset);
 
 }

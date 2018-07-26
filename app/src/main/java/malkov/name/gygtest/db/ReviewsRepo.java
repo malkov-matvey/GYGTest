@@ -19,7 +19,7 @@ public class ReviewsRepo {
         reviews.insertAll(rs);
     }
 
-    public Flowable<List<Review>> loadReviews() {
-        return reviews.loadReviews();
+    public Flowable<List<Review>> loadReviewsWithOffset(int offset) {
+        return reviews.loadReviewsWithOffset(offset).toFlowable();
     }
 }

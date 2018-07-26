@@ -3,17 +3,14 @@ package malkov.name.gygtest.db.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
 @Entity(tableName = "reviews")
 public class Review {
 
     @PrimaryKey
     @ColumnInfo(name = "id")
-    @NonNull
     private long id;
 
-    @NonNull
     @ColumnInfo(name = "rating")
     private float rating;
 
@@ -44,8 +41,8 @@ public class Review {
     @ColumnInfo(name = "reviewer_country")
     private String reviewerCountry;
 
-    public Review(@NonNull long id,
-                  @NonNull float rating,
+    public Review(long id,
+                  float rating,
                   String title,
                   String message,
                   String author,
@@ -68,12 +65,10 @@ public class Review {
         this.reviewerCountry = reviewerCountry;
     }
 
-    @NonNull
     public long getId() {
         return id;
     }
 
-    @NonNull
     public float getRating() {
         return rating;
     }
