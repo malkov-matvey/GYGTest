@@ -1,6 +1,5 @@
 package malkov.name.gygtest.ui.main;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,10 +18,8 @@ import malkov.name.gygtest.db.model.Review;
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
 
     private List<Review> list = Collections.emptyList();
-    final Context context;
 
-    public ReviewsAdapter(Context context) {
-        this.context = context;
+    ReviewsAdapter() {
         setHasStableIds(true);
     }
 
@@ -79,7 +76,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         }
 
         void bind(Review r) {
-            bindTextField(title, r.getTitle());
+            bindTextField(title, r.getTitle() == null ? null : "\"" + r.getTitle() + "\"");
             bindTextField(message, r.getMessage());
             final String authorStr = r.getAuthor() == null ? null : itemView
                     .getContext().getString(R.string.fmt_reviewed_by, r.getAuthor());

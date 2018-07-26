@@ -8,7 +8,7 @@ import io.reactivex.Flowable;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.internal.disposables.CancellableDisposable;
 
-public class PagingRecyclerObservable {
+public class PagingRecyclerFlowable {
 
     //threshold shows in what percent of item whe should pass before loading new
     //[0 .. 1]

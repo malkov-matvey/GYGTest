@@ -12,47 +12,81 @@ import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import malkov.name.gygtest.R;
+import malkov.name.gygtest.ui.observable.ClickFlowable;
+import malkov.name.gygtest.ui.observable.PagingRecyclerFlowable;
 import malkov.name.gygtest.ui.submission.SubmitReviewActivity;
-import malkov.name.gygtest.ui.observable.PagingRecyclerObservable;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView list;
-    private ReviewsViewModel vm;
-    private ReviewsAdapter adapter;
     private final CompositeDisposable disposable = new CompositeDisposable();
+    private ReviewsAdapter adapter;
+    private RecyclerView list;
+    private View retry;
+    private View progress;
+    private ReviewsViewModel vm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         list = findViewById(R.id.list);
-        final View progress = findViewById(R.id.progress);
-        findViewById(R.id.fab).setOnClickListener(v -> startActivity(new Intent(this, SubmitReviewActivity.class)));
-        adapter = new ReviewsAdapter(this);
+        retry = findViewById(R.id.retry_section);
+        progress = findViewById(R.id.progress);
+        adapter = new ReviewsAdapter();
         list.setLayoutManager(new LinearLayoutManager(this));
         list.setAdapter(adapter);
-        list.setVisibility(View.GONE);
-        progress.setVisibility(View.VISIBLE);
+        findViewById(R.id.fab).setOnClickListener(v -> startActivity(new Intent(this, SubmitReviewActivity.class)));
 
         vm = ViewModelProviders.of(this).get(ReviewsViewModel.class);
-        Flowable<Integer> paging = PagingRecyclerObservable.paging(list, 0.75f);
-        disposable.add(vm.bind(paging).observeOn(AndroidSchedulers.mainThread()).subscribe(reviews -> {
-            adapter.setData(reviews);
-            adapter.notifyDataSetChanged();
-            if (!reviews.isEmpty()) {
-                list.setVisibility(View.VISIBLE);
-                progress.setVisibility(View.GONE);
-            }
-        }));
+        final Flowable<Integer> paging = PagingRecyclerFlowable.paging(list, 0.75f);
+        final Flowable<View> retrySignal = ClickFlowable.clicksFlow(retry, true)
+                .doOnNext(res -> stateLoading());
+        startFlow(paging, retrySignal);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        cleanup();
+    }
+
+    private void cleanup() {
         if (!disposable.isDisposed()) {
             disposable.dispose();
             disposable.clear();
         }
+    }
+
+    private void startFlow(Flowable<Integer> paging, Flowable<View> retrySignal) {
+        disposable.add(vm.bind(paging, retrySignal)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(subscription -> stateLoading())
+                .subscribe(reviews -> {
+                    if (reviews.isEmpty()) {
+                        stateRetry();
+                    } else {
+                        stateSuccess();
+                        adapter.setData(reviews);
+                        adapter.notifyDataSetChanged();
+                    }
+                }));
+    }
+
+    private void stateLoading() {
+        list.setVisibility(View.GONE);
+        retry.setVisibility(View.GONE);
+        progress.setVisibility(View.VISIBLE);
+    }
+
+    private void stateRetry() {
+        progress.setVisibility(View.GONE);
+        list.setVisibility(View.GONE);
+        retry.setVisibility(View.VISIBLE);
+    }
+
+    private void stateSuccess() {
+        list.setVisibility(View.VISIBLE);
+        retry.setVisibility(View.GONE);
+        progress.setVisibility(View.GONE);
     }
 }
