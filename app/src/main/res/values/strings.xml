@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">GYGTest</string>
     <string name="fmt_reviewed_by">reviewed by %s</string>
+    <string name="rate_hint">Rate your experience</string>
+    <string name="title_hint">How was a tour?</string>
+    <string name="message_hint">Describe your experience</string>
+    <string name="action_submit">Submit</string>
+
+    <string name="submission_no_data_title">No data to submit</string>
+    <string name="submission_no_data_message">Please, provide at least rating and one of detailed or fast impression about this tour</string>
+
+    <string name="general_network_error">Network error. Try again later</string>
 </resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/large_offset"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editTitle"
+        android:lines="1"
+        android:minLines="1"
+        android:maxLines="3"
+        android:hint="@string/title_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="textShortMessage"/>
+
+    <TextView
+        android:layout_marginTop="@dimen/medium_offset"
+        android:id="@+id/rate_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/editTitle"
+        android:text="@string/rate_hint"/>
+
+    <RatingBar
+        android:id="@+id/rate_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/rate_hint"/>
+
+    <EditText
+        android:layout_marginTop="@dimen/medium_offset"
+        android:id="@+id/messageEdit"
+        android:lines="1"
+        android:minLines="3"
+        android:maxLines="10"
+        android:hint="@string/message_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/rate_input"
+        android:layout_marginBottom="30dip"
+        android:inputType="textAutoCorrect" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/action_submit"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/messageEdit"
+        app:layout_constraintVertical_bias="1"
+        />
+
+</android.support.constraint.ConstraintLayout>

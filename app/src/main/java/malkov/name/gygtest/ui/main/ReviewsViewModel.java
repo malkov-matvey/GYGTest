@@ -1,4 +1,4 @@
-package malkov.name.gygtest;
+package malkov.name.gygtest.ui.main;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -14,9 +14,11 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import malkov.name.gygtest.db.ReviewsRepo;
 import malkov.name.gygtest.db.model.Review;
+import malkov.name.gygtest.network.Converter;
 import malkov.name.gygtest.network.ReviewNetworkServicesProvider;
 import malkov.name.gygtest.network.model.ReviewFromNetwork;
 import malkov.name.gygtest.network.model.ReviewResult;
+import malkov.name.gygtest.utils.Utils;
 
 public class ReviewsViewModel extends AndroidViewModel {
 
@@ -34,36 +36,12 @@ public class ReviewsViewModel extends AndroidViewModel {
         repo = new ReviewsRepo(context);
     }
 
-    private List<Review> convertReviews(List<ReviewFromNetwork> rs) {
-        if (rs == null) return Collections.emptyList();
-        final List<Review> res = new ArrayList<>(rs.size());
-        for (final ReviewFromNetwork r : rs) {
-
-            res.add(new Review(
-                    r.getId(),
-                    Utils.convertFloatSafe(r.getRating()),
-                    r.getTitle(),
-                    r.getMessage(),
-                    r.getAuthor(),
-                    r.getDateStr(),
-                    r.isForeignLanguage(),
-                    r.getLanguageIcoCode(),
-                    r.getTravelerType(),
-                    r.getReviewerName(),
-                    r.getReviewerCountry()
-            ));
-        }
-        return Collections.unmodifiableList(res);
-    }
-
-
-
     private Flowable<List<Review>> fetchFromNetwork(Integer offset) {
         return ReviewNetworkServicesProvider.buildService()
                 .listReviews(DEFAULT_COUNT, offset)
                 .subscribeOn(Schedulers.io())
                 .onErrorReturn(throwable -> new ReviewResult(-1, Collections.emptyList()))
-                .map(rs -> convertReviews(rs.getResultList()))
+                .map(rs -> Converter.convertReviews(rs.getResultList()))
                 .doOnNext(rs -> repo.insertBatch(rs));
     }
 

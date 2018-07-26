@@ -15,6 +15,10 @@ public class ReviewsRepo {
          reviews = MainDatabase.getInstance(context.getApplicationContext()).reviews();
     }
 
+    public void insert(final Review r) {
+        reviews.insert(r);
+    }
+
     public void insertBatch(final List<Review> rs) {
         reviews.insertAll(rs);
     }

@@ -13,12 +13,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ReviewNetworkServicesProvider {
 
+    private static GYGReviewsService REVIEW_INSTANCE = null;
+    private static final Object lock = new Object();
+
     public static GYGReviewsService buildService() {
-        return new Retrofit.Builder()
-                .baseUrl("https://www.getyourguide.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build().create(GYGReviewsService.class);
+        if (REVIEW_INSTANCE == null) {
+            synchronized (lock) {
+                if (REVIEW_INSTANCE == null) {
+                    REVIEW_INSTANCE = new Retrofit.Builder()
+                            .baseUrl("https://www.getyourguide.com")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                            .build().create(GYGReviewsService.class);
+                }
+            }
+        }
+        return REVIEW_INSTANCE;
     }
 
 }

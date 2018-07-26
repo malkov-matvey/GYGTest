@@ -1,4 +1,4 @@
-package malkov.name.gygtest.ui.list;
+package malkov.name.gygtest.ui.main;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

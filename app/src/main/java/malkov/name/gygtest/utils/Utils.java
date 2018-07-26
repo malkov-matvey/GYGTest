@@ -1,4 +1,4 @@
-package malkov.name.gygtest;
+package malkov.name.gygtest.utils;
 
 import android.support.annotation.NonNull;
 
