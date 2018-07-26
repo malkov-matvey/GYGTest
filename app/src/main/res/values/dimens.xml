@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_text_size">22sp</dimen>
+    <dimen name="regular_text_size">16sp</dimen>
+    <dimen name="small_text_size">12sp</dimen>
+
+    <dimen name="small_offset">5dp</dimen>
+    <dimen name="medium_offset">10dp</dimen>
+    <dimen name="large_offset">20dp</dimen>
+</resources>

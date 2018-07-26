@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GYGTest</string>
+    <string name="fmt_reviewed_by">reviewed by %s</string>
 </resources>
