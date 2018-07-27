@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GYGTest</string>
+    <string name="app_name">Best tour reviews</string>
     <string name="fmt_reviewed_by">reviewed by %s</string>
     <string name="rate_hint">Rate your experience</string>
     <string name="title_hint">How was a tour?</string>
