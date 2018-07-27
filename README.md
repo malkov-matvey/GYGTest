@@ -1,4 +1,4 @@
-# GYGTest
+# Best Berlin tour reviews
 Get Your Guide test project with reviews of the most popular tour in Berlin. Developed by Matvei Malkov, 27 July 2018
 
 ### Libs used:
@@ -19,3 +19,6 @@ I decided to use the same retrofit `RestAdapter` with POST request and json `@Bo
 
 ### Tests:
 There's no tests ¯\\\_(ツ)\_/¯
+
+### Futher changes:
+There're quite a lot of things can make this project even better. For example, I can add `BroadcastReceiver` for `NETWORK_CHANGED` event. However, there's no limit for perfection and this version is production-ready like a Minimal Valuable Product.
