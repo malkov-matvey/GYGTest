@@ -41,7 +41,7 @@ public class SubmitReviewActivity extends AppCompatActivity {
     }
 
     private void submitReview(CharSequence title, CharSequence message, float rating) {
-        if (rating != 0.0f && (!TextUtils.isEmpty(title) || TextUtils.isEmpty(message))) {
+        if (rating != 0.0f && (!TextUtils.isEmpty(title) || !TextUtils.isEmpty(message))) {
             disposable.add(vm.submitReview(title.toString(), message.toString(), rating)
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe(disposable -> setUiEnabled(false))

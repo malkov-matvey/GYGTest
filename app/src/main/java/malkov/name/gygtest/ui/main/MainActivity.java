@@ -8,10 +8,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import malkov.name.gygtest.R;
+import malkov.name.gygtest.db.model.Review;
 import malkov.name.gygtest.ui.observable.ClickFlowable;
 import malkov.name.gygtest.ui.observable.PagingRecyclerFlowable;
 import malkov.name.gygtest.ui.submission.SubmitReviewActivity;
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private View retry;
     private View progress;
     private ReviewsViewModel vm;
+    private final Comparator<Review> reviewComparator = (o1, o2) -> (int) (o2.getId() - o1.getId());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         stateRetry();
                     } else {
                         stateSuccess();
+                        Collections.sort(reviews, reviewComparator);
                         adapter.setData(reviews);
                         adapter.notifyDataSetChanged();
                     }
